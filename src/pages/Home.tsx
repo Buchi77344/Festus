@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -238,7 +238,7 @@ const BLOG_POSTS = [
 
 // ─── COMPONENTS ──────────────────────────────────────────────────────────────
 
-function GradientOrb({ cx, cy, r, color, opacity = 0.15 }) {
+function GradientOrb({ cx, cy, r, color, opacity = 0.15 }: { cx: string | number; cy: string | number; r: number; color: string; opacity?: number }) {
   return (
     <div
       style={{
@@ -258,7 +258,7 @@ function GradientOrb({ cx, cy, r, color, opacity = 0.15 }) {
   );
 }
 
-function Badge({ children, accent }) {
+function Badge({ children, accent }: { children: React.ReactNode; accent: string }) {
   return (
     <span
       style={{
@@ -280,8 +280,8 @@ function Badge({ children, accent }) {
   );
 }
 
-function TechBadge({ name, index = 0 }) {
-  const colors = {
+function TechBadge({ name, index = 0 }: { name: string; index?: number }) {
+  const colors: Record<string, string> = {
     React: "#61dafb", TypeScript: "#3178c6", Django: "#0c4b33", "Node.js": "#84ba64",
     n8n: "#ff6d5a", OpenAI: "#10a37f", Stripe: "#635bff", Docker: "#2496ed",
     PostgreSQL: "#336791", MongoDB: "#47a248", "Next.js": "#ffffff", Redis: "#dc382d",
@@ -308,7 +308,7 @@ function TechBadge({ name, index = 0 }) {
   );
 }
 
-function StarRating({ count }) {
+function StarRating({ count }: { count: number }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {Array(count).fill(0).map((_, i) => (
@@ -318,7 +318,7 @@ function StarRating({ count }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, subtitle }) {
+function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
   return (
     <div style={{ textAlign: "center", marginBottom: 64 }}>
       <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", color: "#6366f1", textTransform: "uppercase", marginBottom: 12 }}>
@@ -412,7 +412,7 @@ function TypingAnimation() {
 
 // ─── SECTIONS ────────────────────────────────────────────────────────────────
 
-function Nav({ activeSection }) {
+function Nav({ activeSection }: { activeSection: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
@@ -687,7 +687,7 @@ function Skills() {
 
         {/* Skills grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-          {SKILLS[activeTab].map((skill, idx) => (
+          {SKILLS[activeTab as keyof typeof SKILLS].map((skill: { name: string; level: number }, idx: number) => (
             <div key={skill.name} style={{
               padding: "20px 24px", borderRadius: 14, background: "rgba(255,255,255,0.03)",
               border: "1px solid rgba(255,255,255,0.07)", transition: "border-color 0.2s",
@@ -721,7 +721,7 @@ function Skills() {
 }
 
 function Projects() {
-  const [activeProject, setActiveProject] = useState(null);
+  const [activeProject, setActiveProject] = useState<number | null>(null);
 
   return (
     <section id="projects" style={{ padding: "100px clamp(16px,5vw,60px)" }}>
@@ -821,7 +821,6 @@ function Projects() {
 }
 
 function CaseStudy() {
-  const study = PROJECTS[0];
   return (
     <section id="case-studies" style={{ padding: "100px clamp(16px,5vw,60px)", background: "rgba(255,255,255,0.015)", borderTop: "1px solid rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -1134,8 +1133,8 @@ function Footer() {
               animationDelay: `${idx * 0.1}s`,
               opacity: 0,
             }}
-              onMouseEnter={e => e.target.style.color = "#818cf8"}
-              onMouseLeave={e => e.target.style.color = "#4b5563"}
+              onMouseEnter={e => (e.target as HTMLElement).style.color = "#818cf8"}
+              onMouseLeave={e => (e.target as HTMLElement).style.color = "#4b5563"}
             >{l}</a>
           ))}
         </div>
